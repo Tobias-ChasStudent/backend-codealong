@@ -14,10 +14,18 @@
 
     <nav>
         <a href="/">Start</a>
-        <a href="/auth">Logga in</a>
+        <a href="/login">Logga in</a>
     </nav>
 
+
+
     <main>
+        -
+        {{#if messages.info}}
+        <p>{{messages.info}}</p>
+        {{/if }}
+        -
+
         {{{body}}}
     </main>
 

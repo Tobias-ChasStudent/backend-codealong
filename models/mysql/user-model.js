@@ -2,9 +2,11 @@ const SQLize = require('sequelize')
 const sequelize = require('../../config/sequelize')
 
 const userSchema = {
-  user_id: {
+  userId: {
     type: SQLize.DataTypes.INTEGER,
-    allowNull: false
+    primaryKey: true,
+    autoIncrement: true,
+    field: "user_id"
   },
   username: {
     type: SQLize.DataTypes.STRING,
@@ -20,4 +22,4 @@ const userSchema = {
   }
 }
 
-const User = sequelize.define("users", userSchema);
+module.exports = sequelize.define("users", userSchema);

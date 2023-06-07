@@ -7,11 +7,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const exphbs = require("express-handlebars")
-
-var homeWebRouter = require('./routes/web/home-web-router');
-const authWebRouter = require('./routes/web/auth-web-router');
+const flash = require('express-flash')
+const session = require('express-session')
 
 var app = express();
+app.use((req,res,next) => {
+  app.locals.success = req.flash('info')
+  next()
+})
+
+var homeWebRouter = require('./routes/web/home-web-router');
+const loginWebRouter = require('./routes/web/auth-web-router');
+
 
 
 
@@ -23,17 +30,29 @@ app.engine("hbs", exphbs.engine({
   extname: ".hbs"
 }))
 
+app.use(cookieParser());
+app.use(session({
+  cookie: {
+    secure: true
+  },
+  resave: false,
+  secret: "keyboard cat",
+  saveUninitialized: true
+}))
+app.use(flash())
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(express.urlencoded({
+  extended: false
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', homeWebRouter);
-app.use('/auth', authWebRouter);
+app.use('/login', loginWebRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next, err) {
+app.use(function (req, res, next, err) {
   // Handle rendering errors separately
   if (err.message && err.message.includes("Rendering error")) {
     res.status(500).send("Error rendering template");
@@ -47,7 +66,7 @@ app.use(function(req, res, next, err) {
   next(createError(404));
 })
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
