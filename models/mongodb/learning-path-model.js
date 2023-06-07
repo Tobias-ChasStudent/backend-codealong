@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+const mongoose = require('mongoose')
 
 const learningPathSchema = new mongoose.Schema({
     title: {
@@ -13,4 +13,7 @@ const learningPathSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    steps: [String]
 })
+
+module.exports = mongoose.model('LearningPath', learningPathSchema)

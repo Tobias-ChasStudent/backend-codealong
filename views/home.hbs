@@ -1,0 +1,17 @@
+<h2>Lärostigar</h2>
+<div class="item-grid">
+    {{#each learningPaths}}
+    <article class="item">
+        <div>
+            <p><b>{{title}}</b></p>
+            <p><i>{{desc}}</i></p>
+            <p>Uppskattad tid: <i>{{estimatedHours}} timmar</i></p>
+            <ol>
+                {{#each steps}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ol>
+        </div>
+    </article>
+    {{/each}}
+</div>
