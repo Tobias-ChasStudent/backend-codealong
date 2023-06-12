@@ -3,6 +3,9 @@ const LearningPath = require('./../../models/mongodb/learning-path-model')
 module.exports = {
     home: async (req, res) => {
         let learningPaths = await LearningPath.find().lean()
+
+        
+
         console.log(learningPaths);
         if (learningPaths.length === 0) {
             const learningPath = new LearningPath({

@@ -9,12 +9,10 @@ var logger = require('morgan');
 const exphbs = require("express-handlebars")
 const flash = require('express-flash')
 const session = require('express-session')
+const {passport, setUser} = require('./utils/passport')
 
 var app = express();
-app.use((req,res,next) => {
-  app.locals.success = req.flash('info')
-  next()
-})
+
 
 var homeWebRouter = require('./routes/web/home-web-router');
 const loginWebRouter = require('./routes/web/auth-web-router');
@@ -33,47 +31,34 @@ app.engine("hbs", exphbs.engine({
 app.use(cookieParser());
 app.use(session({
   cookie: {
-    secure: true
+    secure: false
   },
   resave: false,
   secret: "keyboard cat",
   saveUninitialized: true
 }))
-app.use(flash())
+/* app.use(flash()) */
+app.use((req,res,next) => {
+  if (req.session.flash && req.session.flash.length > 0) {
+    res.locals.flash = req.session.flash
+    delete req.session.flash
+  }
+
+  next()
+})
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
   extended: false
 }));
-
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(setUser)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', homeWebRouter);
-app.use('/login', loginWebRouter);
+app.use('/auth', loginWebRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next, err) {
-  // Handle rendering errors separately
-  if (err.message && err.message.includes("Rendering error")) {
-    res.status(500).send("Error rendering template");
-  } else {
-    // Set locals and render the error page
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
-    res.render('error');
-  };
-  next(createError(404));
-})
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 module.exports = app;

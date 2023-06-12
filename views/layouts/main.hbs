@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/js/script.js" defer></script>
 </head>
 <body>
     <header>
@@ -14,17 +15,18 @@
 
     <nav>
         <a href="/">Start</a>
-        <a href="/login">Logga in</a>
+        <a href="/auth">Logga in</a>
     </nav>
 
 
 
     <main>
-        -
-        {{#if messages.info}}
-        <p>{{messages.info}}</p>
+        
+        {{#if flash}}
+        <p class="{{flash.type}}">{{flash.message}}</p>
+
         {{/if }}
-        -
+        
 
         {{{body}}}
     </main>

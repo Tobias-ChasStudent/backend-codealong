@@ -1,5 +1,6 @@
 const SQLize = require('sequelize')
 const sequelize = require('../../config/sequelize')
+const bcrypt = require('bcrypt')
 
 const userSchema = {
   userId: {
@@ -21,5 +22,10 @@ const userSchema = {
     allowNull: false
   }
 }
+const User = sequelize.define("users", userSchema)
 
-module.exports = sequelize.define("users", userSchema);
+User.prototype.validatePassword = async (password) => {
+  const validPassword = await bcrypt.
+}
+
+module.exports = { User: sequelize.define("users", userSchema) }

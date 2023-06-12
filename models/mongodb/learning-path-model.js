@@ -13,7 +13,12 @@ const learningPathSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    steps: [String]
+    steps: [{
+        title: String,
+        done: Boolean,
+        desc: String,
+        link: String
+    }]
 })
 
 module.exports = mongoose.model('LearningPath', learningPathSchema)

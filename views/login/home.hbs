@@ -1,14 +1,13 @@
 <h2>{{title}}</h2>
 
-<form action="/login/login" method="post">
-<input type="text" name="username" placeholder="username">
-<input type="password" name="hash" placeholder="Password">
-<input type="password" name="hash" placeholder="Confirm password">
-    <input type="submit" value="Logga in">
+<form action="/auth/login" method="POST">
+    <input type="text" name="username" placeholder="username" />
+    <input type="password" name="hash" placeholder="Password" />
+    <input type="submit" value="Logga in" />
 </form>
-<form action="/login/register" method="post">
-<input type="text" name="username" placeholder="username">
-<input type="password" name="hash" placeholder="Password">
-<input type="password" name="hash" placeholder="Confirm password">
-    <input type="submit" value="Registrera">
+<form action="/auth/register" method="POST">
+    <input type="text" name="username" placeholder="username" />
+    <input type="password" name="hash" placeholder="Password" />
+    <input type="password" name="hash" placeholder="Confirm password" />
+    <input type="submit" value="Registrera" />
 </form>
