@@ -1,23 +1,23 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
-const User = require("./../models/mysql/user-model")
+const userModel = require("./../models/mysql/user-model")
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
-        const user = await User.findOne({ where: { username } })
+        const userByName = await userModel.findOne({ where: { username } })
 
-        if (!user) {
+        if (!userByName) {
             return done("Incorrect username or password", false)
         }
 
-        const passwordMatch = await user.validatePassword(password)
+        const passwordMatch = await userByName.validatePassword(password)
 
         if (!passwordMatch) {
             return done("Incorrect username or password", false)
 
         }
-        return done(null, user)
+        return done(null, userByName)
     }
 ))
 
@@ -25,27 +25,30 @@ passport.serializeUser((user, done) => {
     done(null, user.userId)
 })
 
-passport.deserializeUser(async (user, done) => {
-    const user = await User.findOne({ where: { userId } })
-    dont(null, user)
+passport.deserializeUser(async (userId, done) => {
+    const userById = await userModel.findOne({ where: { userId } })
+    done(null, userById)
 })
 
 const requireAuth = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next()
     }
+
+    req.session.flash = {type:"danger", test: "Du måste logga in för att se denna sida"}
+
     res.redirect('/login')
 }
 
 const setUser = (req, res, next) => {
     if (req.isAuthenticated) {
-        res.locals.user = req.user.dataValues
+        res.locals.user = req.user
     }
     next()
 }
 
 module.exports = {
+    passport,
     requireAuth,
     setUser,
-    passport
 }

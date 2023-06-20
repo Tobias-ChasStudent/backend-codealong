@@ -15,7 +15,8 @@ var app = express();
 
 
 var homeWebRouter = require('./routes/web/home-web-router');
-const loginWebRouter = require('./routes/web/auth-web-router');
+const authWebRouter = require('./routes/web/auth-web-router');
+const profileWebRouter = require('./routes/web/profile-web-router');
 
 
 
@@ -37,6 +38,12 @@ app.use(session({
   secret: "keyboard cat",
   saveUninitialized: true
 }))
+/* Passport */
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(setUser)
+
+
 /* app.use(flash()) */
 app.use((req,res,next) => {
   if (req.session.flash && req.session.flash.length > 0) {
@@ -57,7 +64,8 @@ app.use(setUser)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', homeWebRouter);
-app.use('/auth', loginWebRouter);
+app.use('/auth', authWebRouter);
+app.use('/profile', profileWebRouter);
 
 
 

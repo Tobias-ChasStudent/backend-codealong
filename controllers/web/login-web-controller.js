@@ -18,14 +18,16 @@ module.exports = {
             req.session.flash = {type: "danger", message: "Username already exists"}
             return res.redirect('/login')
         } */
-        
-        const passwordHash = await bcrypt.hash(req.body.password, 10)
-        User.create({
+        console.log(req.body.hash);
+        const passwordHash = await bcrypt.hash(req.body.hash, 10)
+        const user = await User.create({
             username,
             hash: passwordHash
         })
 
-
+        if (user) {
+            req.session.flash = {type: "succeess", message: "User created"}
+        }
 
         req.session.flash = { type: "success", message: "No user created" }
 
