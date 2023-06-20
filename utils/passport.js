@@ -49,7 +49,7 @@ const requireAuth = (req, res, next) => {
         return next()
     }
 
-    req.session.flash = {type:"danger", test: "Du måste logga in för att se denna sida"}
+    req.session.flash = {type:"danger", message: "Du måste logga in för att se denna sida"}
 
     res.redirect('/auth')
 }

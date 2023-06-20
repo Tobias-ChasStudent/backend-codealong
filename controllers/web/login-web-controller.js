@@ -5,7 +5,11 @@ module.exports = {
     home: async (req, res) => {
         console.log("Auth controller");
         try {
-            res.render('login/home', { title: "Logga in / registrera" });
+            if (req.user) {
+                return res.redirect("/profile")
+            }
+
+            res.render('login/home', { title: "Logga in / Registrera" });
         } catch (err) {
             next(err);
         }
@@ -34,6 +38,8 @@ module.exports = {
         res.redirect('/auth')
     },
     loginUser: async (req, res, next) => {
+        req.session.flash = {type: "success", message: "You are now logged in"}
+
         res.redirect('/profile') 
     }
 }

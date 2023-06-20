@@ -1,38 +1,41 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="/js/script.js" defer></script>
-</head>
-<body>
-    <header>
-        <h1>{{title}}</h1>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+        <script src="/js/script.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <h1>{{title}}</h1>
+        </header>
 
-    <nav>
-        <a href="/">Start</a>
-        <a href="/auth">Logga in</a>
-    </nav>
+        <nav>
+            <a href="/">Start</a>
+            {{#if user}}
+            <a href="/profile">Din Profil</a>
+            {{else}}
+            <a href="/auth">Logga in</a>
+            {{/if}}
+        </nav>
 
+        <main>
 
+            {{#if flash}}
+                <p class="{{flash.type}}">
+                    {{flash.message}}
+                    <span class="close-flash">X</span>    
+                </p>
 
-    <main>
-        
-        {{#if flash}}
-        <p class="{{flash.type}}">{{flash.message}}</p>
+            {{/if}}
 
-        {{/if }}
-        
+            {{{body}}}
+        </main>
 
-        {{{body}}}
-    </main>
-
-    <footer>
-        Insert Footer here...
-    </footer>
-</body>
+        <footer>
+            Insert Footer here...
+        </footer>
+    </body>
 </html>
