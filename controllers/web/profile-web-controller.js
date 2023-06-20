@@ -1,7 +1,7 @@
 const User = require("../../models/mysql/user-model")
 
 module.exports = {
-    home: async (req, res) => {
+    home: async (req, res, next) => {
         console.log("Profile controller");
         try {
             res.render('profile/home', { title: "Din profil" });

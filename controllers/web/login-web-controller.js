@@ -31,10 +31,9 @@ module.exports = {
 
         req.session.flash = { type: "success", message: "No user created" }
 
-        req.flash('info', 'flash message added')
-        res.redirect('/login')
+        res.redirect('/auth')
     },
     loginUser: async (req, res, next) => {
-        res.redirect('/profile')
+        res.redirect('/profile') 
     }
 }

@@ -1,7 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     let closeFlashButton = document.querySelector('span.close-flash')
-    closeFlashButton.addEventListener('click', closeFlashMessage)
+    if (closeFlashButton) {
+        closeFlashButton.addEventListener('click', closeFlashMessage)
+    }
 })
 
 const closeFlashMessage = (ev) => {
