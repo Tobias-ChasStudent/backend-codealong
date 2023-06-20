@@ -3,23 +3,37 @@ const LocalStrategy = require('passport-local').Strategy
 
 const userModel = require("./../models/mysql/user-model")
 
-passport.use(new LocalStrategy(
-    async (username, password, done) => {
-        const userByName = await userModel.findOne({ where: { username } })
+passport.use(new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'hash'
+},
+    async (username, hash, done) => {
+        console.log('Authenticating user:', username);
 
-        if (!userByName) {
-            return done("Incorrect username or password", false)
+        try {
+            const userByName = await userModel.findOne({ where: { username } });
+
+            if (!userByName) {
+                console.log('User not found');
+                return done(null, false, {message: "Incorrect username or password"});
+            }
+
+            const passwordMatch = await userByName.validatePassword(hash);
+
+            if (!passwordMatch) {
+                console.log('Incorrect password');
+                return done(null, false, {message: "Incorrect username or password"});
+            }
+
+            console.log('Authentication successful');
+            return done(null, userByName);
+        } catch (error) {
+            console.error('Error during authentication:', error);
+            return done(error);
         }
-
-        const passwordMatch = await userByName.validatePassword(password)
-
-        if (!passwordMatch) {
-            return done("Incorrect username or password", false)
-
-        }
-        return done(null, userByName)
     }
-))
+));
+
 
 passport.serializeUser((user, done) => {
     done(null, user.userId)
@@ -41,7 +55,7 @@ const requireAuth = (req, res, next) => {
 }
 
 const setUser = (req, res, next) => {
-    if (req.isAuthenticated) {
+    if (req.isAuthenticated()) {
         res.locals.user = req.user
     }
     next()

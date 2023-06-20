@@ -1,4 +1,4 @@
-const User = require("./../../models/mysql/user-model")
+const User = require("../../models/mysql/user-model")
 const bcrypt = require('bcrypt')
 
 module.exports = {

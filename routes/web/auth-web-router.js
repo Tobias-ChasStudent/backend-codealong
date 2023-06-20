@@ -5,7 +5,12 @@ const { passport } = require('../../utils/passport');
 
 /* GET auth page. */
 router.get('/', controller.home);
-router.post('/login', passport.authenticate('local', {failureRedirect: "/"}), controller.loginUser);
+router.post('/login', passport.authenticate('local', {
+    failureRedirect: "/auth", 
+    failureFlash: {
+        type: "danger", message: "Incorrect username or password"
+    }
+}), controller.loginUser);
 router.post('/register', controller.registerUser);
 
 module.exports = router;

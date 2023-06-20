@@ -24,7 +24,7 @@ const userSchema = {
 }
 const User = sequelize.define("users", userSchema)
 
-User.prototype.validatePassword = async (password) => {
+User.prototype.validatePassword = async function (password) {
   const validPassword = await bcrypt.compare(password, this.hash);
   return validPassword
 }

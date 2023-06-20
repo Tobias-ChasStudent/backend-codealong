@@ -46,7 +46,11 @@ app.use(setUser)
 
 /* app.use(flash()) */
 app.use((req,res,next) => {
-  if (req.session.flash && req.session.flash.length > 0) {
+  req.flash = (type, message) => {
+    req.session.flash = {type, message}
+  }
+
+  if (req.session.flash) {
     res.locals.flash = req.session.flash
     delete req.session.flash
   }
