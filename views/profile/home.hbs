@@ -7,6 +7,10 @@
 
 <div class="path">
     <h4>{{learningPath.title}}</h4>
+    <h5 class="steps-count-container"><b>Steg:</b> <span class="steps-count"></span></h5>
+    <div class="progress-bar-container">
+        <div class="progress-bar" style="background-color: green;"></div>
+    </div>
     <p>{{learningPath.desc}}</p>
     <ol>
         {{#each learningPath.steps}}
