@@ -5,7 +5,7 @@ const { requireAuth } = require('../../utils/passport');
 
 /* GET auth page. */
 router.get('/', requireAuth, controller.home);
-router.get('/start-path/:id', requireAuth, controller.startPath);
+router.post('/start-path/:id', requireAuth, controller.startPath);
 
 
 module.exports = router;

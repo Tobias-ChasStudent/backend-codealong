@@ -1,4 +1,35 @@
 <h2>Välkommen {{user.username}}</h2>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis repudiandae illo, vitae nesciunt, expedita minus, accusamus blanditiis eos eveniet provident ex! In nesciunt saepe fuga, necessitatibus officiis beatae voluptate ea velit pariatur sunt totam nihil quam, animi consequuntur placeat nam minima vel atque consequatur fugit molestiae repellendus. Maxime, nesciunt laudantium!</p>
+<h3>Här är dina påbörjade lärostigar. Lycka till!</h3>
 
+{{#if learningPaths}}
+{{#each learningPaths}}
+
+<div class="path">
+    <h4>{{learningPath.title}}</h4>
+    <p>{{learningPath.desc}}</p>
+    <ol>
+        {{#each learningPath.steps}}
+        <li>
+            <p>
+                {{#if done}}
+                <input type="checkbox" class="complete-step" data-step-id="{{_id}}" data-path-id="{{../_id}}" data-done="true" checked>
+                {{else}}
+                <input type="checkbox" class="complete-step" data-step-id="{{_id}}" data-path-id="{{../_id}}" data-done="false" >
+                {{/if}}
+                <b>{{title}}</b>
+            </p>
+            {{desc}}
+
+            <p>
+                <a href="{{link}}" target="_blank">Länk till kursen</a>
+            </p>
+        </li>
+        {{/each}}
+    </ol>
+
+</div>
+<hr />
+
+{{/each}}
+{{/if}}

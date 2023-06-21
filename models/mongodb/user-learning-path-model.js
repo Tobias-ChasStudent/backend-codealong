@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const learningPath = require('./learning-path-model')
+const learningPathModel = require('./learning-path-model')
 
 const userLearningPathSchema = new mongoose.Schema({
     userId: {
@@ -7,7 +7,7 @@ const userLearningPathSchema = new mongoose.Schema({
         required: true
     },
     learningPaths: [{
-        learningPath: learningPath.schema,
+        learningPath: learningPathModel.schema,
         startedAt: {
             type: Date,
             required: true

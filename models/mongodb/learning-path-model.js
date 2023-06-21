@@ -22,4 +22,6 @@ const learningPathSchema = new mongoose.Schema({
     }]
 })
 
+
+
 module.exports = mongoose.model('LearningPath', learningPathSchema)

@@ -6,7 +6,10 @@ module.exports = {
     home: async (req, res, next) => {
         console.log("Profile controller");
         try {
-            res.render('profile/home', { title: "Din profil" });
+            const userId = req.user.userId
+            const userLearningPaths = await userLearningPathModel.findOne({ userId }).lean()
+            const learningPaths = userLearningPaths.learningPaths
+            res.render('profile/home', { title: "Din profil", learningPaths });
         } catch (err) {
             next(err);
         }

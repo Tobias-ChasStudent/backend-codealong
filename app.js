@@ -3,6 +3,7 @@ require('./config/mongoose')
 require('./config/sequelize')
 var createError = require('http-errors');
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -17,6 +18,7 @@ var app = express();
 var homeWebRouter = require('./routes/web/home-web-router');
 const authWebRouter = require('./routes/web/auth-web-router');
 const profileWebRouter = require('./routes/web/profile-web-router');
+const profileApiRouter = require('./routes/api/profile-api-router');
 
 
 
@@ -29,6 +31,7 @@ app.engine("hbs", exphbs.engine({
   extname: ".hbs"
 }))
 
+app.use(cors())
 app.use(cookieParser());
 app.use(session({
   cookie: {
@@ -70,6 +73,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', homeWebRouter);
 app.use('/auth', authWebRouter);
 app.use('/profile', profileWebRouter);
+app.use('/api/profile', profileApiRouter);
 
 
 
